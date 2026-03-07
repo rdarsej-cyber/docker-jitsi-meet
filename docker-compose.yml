@@ -10,6 +10,8 @@ services:
             - ${CONFIG}/web:/config:Z
             - ${CONFIG}/web/crontabs:/var/spool/cron/crontabs:Z
             - ${CONFIG}/transcripts:/usr/share/jitsi-meet/transcripts:Z
+            - /root/jitsi-meet-src/build:/usr/share/jitsi-meet/libs:Z
+            - /root/jitsi-meet-src/all.css:/usr/share/jitsi-meet/css/all.css:Z
             - ${CONFIG}/web/load-test:/usr/share/jitsi-meet/load-test:Z
         labels:
             service: "jitsi-web"
@@ -192,13 +194,20 @@ services:
 
     # XMPP server
     prosody:
-        image: jitsi/prosody:${JITSI_IMAGE_VERSION:-unstable}
+        build:
+            context: ./prosody
+            args:
+                JITSI_REPO: jitsi
+                BASE_TAG: ${JITSI_IMAGE_VERSION:-unstable}
+        image: jitsi/prosody:custom
         restart: ${RESTART_POLICY:-unless-stopped}
         expose:
             - '${XMPP_PORT:-5222}'
             - '${PROSODY_S2S_PORT:-5269}'
             - '5347'
             - '${PROSODY_HTTP_PORT:-5280}'
+        ports:
+            - '127.0.0.1:5222:5222'
         labels:
             service: "jitsi-prosody"
         volumes:
@@ -441,9 +450,11 @@ services:
     jvb:
         image: jitsi/jvb:${JITSI_IMAGE_VERSION:-unstable}
         restart: ${RESTART_POLICY:-unless-stopped}
-        ports:
-            - '${JVB_PORT:-10000}:${JVB_PORT:-10000}/udp'
-            - '127.0.0.1:${JVB_COLIBRI_PORT:-8080}:8080'
+        network_mode: host
+        ulimits:
+            nofile:
+                soft: 65536
+                hard: 65536
         volumes:
             - ${CONFIG}/jvb:/config:Z
         labels:
@@ -499,12 +510,10 @@ services:
             - VIDEOBRIDGE_MAX_MEMORY
             - XMPP_AUTH_DOMAIN
             - XMPP_INTERNAL_MUC_DOMAIN
-            - XMPP_SERVER
+            - XMPP_SERVER=127.0.0.1
             - XMPP_PORT
         depends_on:
             - prosody
-        networks:
-            meet.jitsi:
 
 # Custom network so all services can communicate using a FQDN
 networks:

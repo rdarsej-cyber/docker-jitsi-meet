@@ -251,6 +251,12 @@ server {
     listen 80;
     server_name $DOMAIN;
 
+    # Block direct access to the Jitsi homepage
+    location = / {
+        return 403;
+    }
+
+    # Allow everything else (room URLs, assets, API)
     location / {
         proxy_pass http://127.0.0.1:8000;
         proxy_set_header Host \$host;

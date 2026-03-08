@@ -182,9 +182,13 @@ sed -i "s|^JVB_AUTH_PASSWORD=.*|JVB_AUTH_PASSWORD=$JVB_PASS|" .env
 sed -i "s|^HTTP_PORT=.*|HTTP_PORT=8000|" .env
 sed -i "s|^HTTPS_PORT=.*|HTTPS_PORT=8443|" .env
 
+# PUBLIC_URL must always be set — without it, config.js defaults to localhost
 if [ -n "$DOMAIN" ]; then
     sed -i "s|^#PUBLIC_URL=.*|PUBLIC_URL=https://$DOMAIN|" .env
     sed -i "s|^PUBLIC_URL=.*|PUBLIC_URL=https://$DOMAIN|" .env
+else
+    sed -i "s|^#PUBLIC_URL=.*|PUBLIC_URL=https://$PUBLIC_IP:8443|" .env
+    sed -i "s|^PUBLIC_URL=.*|PUBLIC_URL=https://$PUBLIC_IP:8443|" .env
 fi
 
 # Append custom settings if not already present

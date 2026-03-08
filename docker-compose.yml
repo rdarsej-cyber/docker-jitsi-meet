@@ -12,6 +12,7 @@ services:
             - ${CONFIG}/transcripts:/usr/share/jitsi-meet/transcripts:Z
             - /root/jitsi-meet-src/libs:/usr/share/jitsi-meet/libs:Z
             - /root/jitsi-meet-src/css/all.css:/usr/share/jitsi-meet/css/all.css:Z
+            - /root/jitsi-meet-src/images/watermark.svg:/usr/share/jitsi-meet/images/watermark.svg:Z
             - ${CONFIG}/web/load-test:/usr/share/jitsi-meet/load-test:Z
         labels:
             service: "jitsi-web"

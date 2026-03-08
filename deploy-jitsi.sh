@@ -60,6 +60,10 @@ NODE_VERSION="20"
 
 # --- Auto-detect public IP ---
 if [ -z "$PUBLIC_IP" ]; then
+    if ! command -v curl > /dev/null 2>&1; then
+        log "Installing curl for IP detection..."
+        sudo apt-get update -qq && sudo apt-get install -y -qq curl > /dev/null 2>&1
+    fi
     PUBLIC_IP=$(curl -4 -s --connect-timeout 5 ifconfig.me || curl -4 -s --connect-timeout 5 api.ipify.org || echo "")
     if [ -z "$PUBLIC_IP" ]; then
         err "Could not detect public IP. Pass it with --ip <IP>"

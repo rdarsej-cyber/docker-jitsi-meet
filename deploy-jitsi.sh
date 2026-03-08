@@ -114,10 +114,10 @@ cd "$JITSI_SRC_DIR"
 npm install --loglevel=error 2>&1 | tail -3
 make 2>&1 | tail -3
 
-if [ ! -f "build/app.bundle.min.js" ]; then
-    err "Build failed — build/app.bundle.min.js not found"
+if [ ! -f "libs/app.bundle.min.js" ]; then
+    err "Build failed — libs/app.bundle.min.js not found"
 fi
-log "Jitsi Meet build complete ($(du -sh build/ | cut -f1))"
+log "Jitsi Meet build complete ($(du -sh libs/ | cut -f1))"
 
 # ============================================================
 # Step 4: Configure docker-jitsi-meet

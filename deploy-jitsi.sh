@@ -138,8 +138,8 @@ if [ -d "$JITSI_SRC_DIR" ]; then
     log "jitsi-meet-src already exists, pulling latest..."
     cd "$JITSI_SRC_DIR" && git pull --ff-only origin master
 else
-    log "Cloning jitsi-meet (custom build)..."
-    git clone "https://github.com/$GITHUB_ORG/jitsi-meet.git" "$JITSI_SRC_DIR"
+    log "Cloning jitsi-meet (custom build, shallow)..."
+    git clone --depth 1 "https://github.com/$GITHUB_ORG/jitsi-meet.git" "$JITSI_SRC_DIR"
 fi
 
 # ============================================================

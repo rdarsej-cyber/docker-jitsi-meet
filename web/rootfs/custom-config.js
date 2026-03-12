@@ -1,5 +1,7 @@
 // Custom overrides — appended after template config on container restart
-// DO NOT override sourceNameSignaling or disableSimulcast — this build requires defaults
+
+// Enable simulcast for proper pinning and video quality switching
+config.disableSimulcast = false;
 
 // Receive all video streams, no limit
 config.channelLastN = -1;

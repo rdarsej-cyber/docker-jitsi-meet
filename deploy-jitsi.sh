@@ -205,7 +205,9 @@ log "Configured .env (JWT_APP_ID=$JWT_APP_ID, PUBLIC_IP=$PUBLIC_IP)"
 # ============================================================
 mkdir -p "$CONFIG_DIR"/{web,transcripts,prosody/config,prosody/prosody-plugins-custom,jicofo,jvb,jigasi,jibri}
 cp "$DEPLOY_DIR"/prosody/prosody-plugins-custom/*.lua "$CONFIG_DIR/prosody/prosody-plugins-custom/"
-log "Config directories created, custom Prosody plugins copied"
+cp "$DEPLOY_DIR"/web/rootfs/custom-config.js "$CONFIG_DIR/web/custom-config.js"
+cp "$DEPLOY_DIR"/web/rootfs/custom-interface_config.js "$CONFIG_DIR/web/custom-interface_config.js"
+log "Config directories created, custom Prosody plugins and web configs copied"
 
 # ============================================================
 # Step 6: Build and start services

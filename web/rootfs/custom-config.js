@@ -1,8 +1,5 @@
 // Custom overrides — appended after template config on container restart
-// DO NOT override sourceNameSignaling — this version requires it true
-
-// Enable simulcast — template has it disabled which breaks pinning/switching
-config.disableSimulcast = false;
+// DO NOT override sourceNameSignaling or disableSimulcast — this build requires defaults
 
 // Receive all video streams, no limit
 config.channelLastN = -1;
@@ -12,10 +9,6 @@ config.enableLayerSuspension = false;
 
 // Lock display names from JWT
 config.disableProfile = true;
-
-// Disable stage filmstrip for classic pin behavior
-config.filmstrip = config.filmstrip || {};
-config.filmstrip.disableStageFilmstrip = true;
 
 // Tile view — dynamic space usage
 config.tileView = { numberOfVisibleTiles: 25 };
